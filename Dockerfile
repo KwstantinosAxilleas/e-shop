@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy the JAR file from the build context to the container
 COPY target/myspringbootproject-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the application port (default for Spring Boot is 8080)
+# Expose the application port (optional, but not required by Render)
 EXPOSE 8080
 
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Use the dynamic PORT environment variable provided by Render
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]

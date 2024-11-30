@@ -10,5 +10,6 @@ COPY target/myspringbootproject-0.0.1-SNAPSHOT.jar app.jar
 # Expose the application port (optional, but not required by Render)
 EXPOSE 8080
 
+ENV PORT=8080
 # Use the dynamic PORT environment variable provided by Render
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT}"]

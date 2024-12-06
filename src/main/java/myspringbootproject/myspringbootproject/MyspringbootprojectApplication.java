@@ -1,6 +1,5 @@
 package myspringbootproject.myspringbootproject;
 
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +15,5 @@ public class MyspringbootprojectApplication {
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-	}	
-
+	}
 }

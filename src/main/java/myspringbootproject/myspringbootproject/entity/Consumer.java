@@ -1,8 +1,9 @@
 package myspringbootproject.myspringbootproject.entity;
 
+import java.util.Set;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,12 +16,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@Table(name = "users") //cant be user
+@Table(name = "Consumer") //cant be user
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Consumer {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class User {
 	private String password;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-	private List<Item> items;
+	@OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL)
+	private Set<Cart> carts;
 
 }

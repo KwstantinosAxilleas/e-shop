@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import myspringbootproject.myspringbootproject.entity.User;
+import myspringbootproject.myspringbootproject.entity.Consumer;
 import myspringbootproject.myspringbootproject.security.SecurityConstants;
 import myspringbootproject.myspringbootproject.security.manager.CustomAuthenticationManager;
 import jakarta.servlet.FilterChain;
@@ -28,12 +28,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try {
-            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+            Consumer consumer = new ObjectMapper().readValue(request.getInputStream(), Consumer.class);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(consumer.getUsername(), consumer.getPassword());
             return authenticationManager.authenticate(authentication);
         } catch (IOException e) {
             throw new RuntimeException();
-        } 
+        }
     }
 
     @Override

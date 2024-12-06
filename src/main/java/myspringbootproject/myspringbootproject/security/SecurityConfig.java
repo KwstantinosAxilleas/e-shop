@@ -27,9 +27,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/h2/**").permitAll()
-                        .requestMatchers("/v3/api-docs", "/swagger-ui/index.html.","/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/swagger-resources","/v3/api-docs/swagger-config").permitAll()
-                        .requestMatchers("/item").permitAll()
-                        .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
+                        .requestMatchers("/v3/api-docs", "/swagger-ui/index.html","/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/swagger-resources","/v3/api-docs/swagger-config").permitAll()
+                        .requestMatchers(HttpMethod.POST, "consumer/register").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
                 .addFilter(authenticationFilter)

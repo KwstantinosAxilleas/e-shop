@@ -7,24 +7,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import myspringbootproject.myspringbootproject.entity.User;
-import myspringbootproject.myspringbootproject.service.UserService;
+import myspringbootproject.myspringbootproject.entity.Consumer;
+import myspringbootproject.myspringbootproject.service.ConsumerService;
 import lombok.*;
 
 @Component
 @AllArgsConstructor
-public class CustomAuthenticationManager implements AuthenticationManager {    
+public class CustomAuthenticationManager implements AuthenticationManager {
 
-    
-    private UserService userServiceImpl;
+    private ConsumerService consumerService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User user = userServiceImpl.getUser(authentication.getName());
-        if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
+        Consumer consumer = consumerService.getConsumer(authentication.getName());
+        if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), consumer.getPassword())) {
             throw new BadCredentialsException("You provided an incorrect password.");
         }
-        return new UsernamePasswordAuthenticationToken(authentication.getName(), user.getPassword());
+        return new UsernamePasswordAuthenticationToken(authentication.getName(), consumer.getPassword());
     }
 }

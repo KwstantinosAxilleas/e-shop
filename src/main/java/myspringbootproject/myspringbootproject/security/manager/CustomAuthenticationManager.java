@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import myspringbootproject.myspringbootproject.entity.Consumer;
 import myspringbootproject.myspringbootproject.service.ConsumerService;
-import lombok.*;
+import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor

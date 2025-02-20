@@ -12,8 +12,8 @@ public class MyspringbootprojectApplication {
 		SpringApplication.run(MyspringbootprojectApplication.class, args);
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }

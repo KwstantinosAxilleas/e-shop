@@ -10,7 +10,7 @@
 <p>Below are previews of the <strong>Swagger UI</strong>, showcasing the well-structured and interactive API documentation.</p>
 
 <h3>Swagger UI View:</h3>
-<img src="./assets/swaggerUI.png" alt="Swagger UI Screenshot"/>
+<img src="./assets/swaggerUI.PNG" alt="Swagger UI Screenshot"/>
 
 <h2>Key Features</h2>
 

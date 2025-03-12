@@ -1,9 +1,7 @@
 package myspringbootproject.myspringbootproject.entity;
 
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,7 +1,8 @@
 package myspringbootproject.myspringbootproject.security.filter;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +15,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain)
+            throws ServletException, IOException {
+
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
@@ -26,14 +31,25 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = header.replace(SecurityConstants.BEARER, "");
-        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
-            .build()
-            .verify(token)
-            .getSubject();
+        try {
+            String token = header.replace(SecurityConstants.BEARER, "").trim();
+            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
+                    .build()
+                    .verify(token)
+                    .getSubject();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (user != null) {
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("Invalid JWT Token");
+            response.getWriter().flush();
+            return;
+        }
+
         filterChain.doFilter(request, response);
     }
 }

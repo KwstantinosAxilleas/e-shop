@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,34 +20,37 @@ import myspringbootproject.myspringbootproject.exception.DuplicateException;
 import myspringbootproject.myspringbootproject.exception.EntityNotFoundException;
 import myspringbootproject.myspringbootproject.exception.ErrorResponse;
 
-
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({EntityNotFoundException.class}) //consumer not found
+    @ExceptionHandler({EntityNotFoundException.class}) // Consumer not found
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException ex) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(ex.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({DuplicateException.class})//consumer already exists
+    @ExceptionHandler({DuplicateException.class}) // Consumer already exists
     public ResponseEntity<Object> handleResourceDuplicateEntity(RuntimeException ex) {
         ErrorResponse error = new ErrorResponse(Arrays.asList(ex.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EmptyResultDataAccessException.class) //unsuccessful deletion
+    @ExceptionHandler(EmptyResultDataAccessException.class) // Unsuccessful deletion
     public ResponseEntity<Object> handleDataAccessException(EmptyResultDataAccessException ex) {
         ErrorResponse error = new ErrorResponse(Arrays.asList("Cannot delete non-existing resource"));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-    @Override  //input validation
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+    @Override // Input validation
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            @NonNull MethodArgumentNotValidException ex,
+            @NonNull HttpHeaders headers,
+            @NonNull HttpStatusCode status,
+            @NonNull WebRequest request) {
         List<String> errors = new ArrayList<>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             errors.add(error.getDefaultMessage());
         }
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
-
 }
